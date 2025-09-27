@@ -1,0 +1,3 @@
+# Use official Airflow image as base
+FROM apache/airflow: 3.0.6
+

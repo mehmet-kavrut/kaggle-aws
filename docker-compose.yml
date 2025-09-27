@@ -1,0 +1,21 @@
+services:
+  airflow-api-server:
+    image: ${AIRFLOW_IMAGE_NAME:-your-dockerhub-username/airflow-custom:latest}
+    environment:
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
+      AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
+      AIRFLOW__API__AUTH_BACKEND: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
+      _AIRFLOW_WWW_USER_CREATE: "true"
+      _AIRFLOW_WWW_USER_USERNAME: "${ADMIN_USERNAME}"
+      _AIRFLOW_WWW_USER_PASSWORD: "${ADMIN_PASSWORD}"
+      KAGGLE_USERNAME: "${KAGGLE_USERNAME}"
+      KAGGLE_KEY: "${KAGGLE_KEY}"
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
