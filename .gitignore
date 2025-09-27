@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+venv/
+
+# Airflow
+airflow/secrets/
+logs/
+*.db
+*.sqlite
+
+# Docker
+*.log
+*.pid
+*.env
+docker-compose.override.yml
+
