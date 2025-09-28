@@ -1,6 +1,5 @@
 import pandas as pd
 import requests
-from modules import ingestion
 
 
 def test_fetch_data_from_api(monkeypatch):
