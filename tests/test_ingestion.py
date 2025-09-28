@@ -1,4 +1,5 @@
 import pandas as pd
+import requests
 from modules import ingestion
 
 
@@ -11,9 +12,10 @@ def test_fetch_data_from_api(monkeypatch):
         def raise_for_status(self):
             pass
 
-        monkeypatch, setattr("requests.get", lambda url: MockResponse())
+    # Use monkeypatch to replace requests.get with a mock function
+    monkeypatch.setattr(requests, "get", lambda url: MockResponse())
 
-        # Call the function's logic
-        df = pd.DataFrame(MockResponse().json())
-        assert not df.empty
-        assert list(df.columns) == ["id", "value"]
+    # Call the function's logic
+    df = pd.DataFrame(MockResponse().json())
+    assert not df.empty
+    assert list(df.columns) == ["id", "value"]
