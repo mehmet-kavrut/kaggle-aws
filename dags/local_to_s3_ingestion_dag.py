@@ -9,7 +9,7 @@ with DAG(
     schedule_interval=None,
     catchup=False,
 ) as dag:
-    
+
     upload_task = PythonOperator(
         task_id="upload_file",
         python_callable=upload_file_to_s3,
