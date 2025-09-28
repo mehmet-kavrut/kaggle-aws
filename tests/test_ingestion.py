@@ -1,20 +1,22 @@
+import unittest
 import pandas as pd
 import requests
+from unittest.mock import patch
 
+class TestAPI(unittest.TestCase):
 
-def test_fetch_data_from_api(monkeypatch):
-    # Mock API response
-    class MockResponse:
-        def json(self):
-            return [{"id": 1, "value": "test1"}, {"id": 2, "value": "test2"}]
+    @patch("requests.get")
+    def test_fetch_data_from_api(self, mock_get):
+        # Mock API response
+        class MockResponse:
+            def json(self):
+                return [{"id": 1, "value": "test1"}, {"id": 2, "value": "test2"}]
+            def raise_for_status(self):
+                pass
 
-        def raise_for_status(self):
-            pass
+        mock_get.return_value = MockResponse()
 
-    # Use monkeypatch to replace requests.get with a mock function
-    monkeypatch.setattr(requests, "get", lambda url: MockResponse())
-
-    # Call the function's logic
-    df = pd.DataFrame(MockResponse().json())
-    assert not df.empty
-    assert list(df.columns) == ["id", "value"]
+        # Call the function's logic
+        df = pd.DataFrame(MockResponse().json())
+        self.assertFalse(df.empty)
+        self.assertListEqual(list(df.columns), ["id", "value"])
