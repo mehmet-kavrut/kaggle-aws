@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 from unittest.mock import patch
 
+
 class TestAPI(unittest.TestCase):
 
     @patch("requests.get")
@@ -11,6 +12,7 @@ class TestAPI(unittest.TestCase):
         class MockResponse:
             def json(self):
                 return [{"id": 1, "value": "test1"}, {"id": 2, "value": "test2"}]
+
             def raise_for_status(self):
                 pass
 
