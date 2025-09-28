@@ -1,6 +1,5 @@
 import unittest
 import pandas as pd
-import requests
 from unittest.mock import patch
 
 
